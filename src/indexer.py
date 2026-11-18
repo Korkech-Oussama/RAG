@@ -13,3 +13,15 @@ class LexicalIndex(BaseIndex):
     def ingest(self, chunk: Iterator[Tuple[str, str, int, int]]) -> None:
         ...
 
+
+    def search(self, query: str, k: int) -> List[MinimalSource]:
+        ...
+
+
+    def save(self, save_directory: str) -> None:
+        ...
+
+
+    def load(cls, directory_: str) -> Self:
+        ...
+
