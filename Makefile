@@ -1,35 +1,36 @@
-• install: Install project dependencies using pip, uv, pipx, or any other package
-manager of your choice.
-• run: Execute the main script of your project (e.g., via Python interpreter).
-• debug: Run the main script in debug mode using Python’s built-in debugger (e.g.,
-pdb).
-8
-RAG against the machine Will you answer my questions?
-• clean: Remove temporary files or caches (e.g., __pycache__, .mypy_cache) to
-keep the project environment clean.
-• lint: Execute the commands flake8 . and mypy . --warn-return-any
---warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs
---check-untyped-defs
-• lint-strict (optional): Execute the commands flake8 . and mypy . --strict
+GOINFRE_DIR := /goinfre/$(USER)
 
+# Route all uv caches, temp files, and the .venv to goinfre
+export UV_CACHE_DIR := $(GOINFRE_DIR)/.uv_cache
+export UV_PROJECT_ENVIRONMENT := $(GOINFRE_DIR)/.venv
+export TMPDIR := $(GOINFRE_DIR)/.tmp
+
+# Route Hugging Face model and dataset downloads to goinfre
+export HF_HOME := $(GOINFRE_DIR)/.huggingface_cache
+
+
+.PHONY: install run debug clean lint lint-strict
 
 
 install:
 	uv sync
 
 run:
-	uv run python3 -m src
+	uv run python -m src $(ARGS)
 
 debug:
-	...
-
+	uv run python -m pdb -m src
 
 clean:
-	...
+	rm -rf src/pycache data/output .mypy_cache llm_sdk/llm_sdk/pycache +
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type d -name ".mypy_cache" -exec rm -rf {} +
 
-• lint:
-	flake8 .\
-	mypy . --warn-return-any
-	--warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs
-	--check-untyped-defs
-	
+lint:
+	uv run mypy src --follow-imports=silent \
+        --warn-unused-ignores \
+        --ignore-missing-imports \
+        --disallow-untyped-defs \
+        --check-untyped-defs \
+        --warn-return-any
+	uv run flake8 src

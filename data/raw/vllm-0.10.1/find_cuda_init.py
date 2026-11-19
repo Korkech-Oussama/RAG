@@ -14,7 +14,7 @@ def find_cuda_init(fn: Callable[[], object]) -> None:
     If `fn` initializes CUDA, prints the stack trace of how this happens.
     """
     from torch.cuda import _lazy_init
-
+    """test"""
     stack = None
 
     def wrapper():

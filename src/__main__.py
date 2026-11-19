@@ -1,8 +1,15 @@
-import fire
+from sys import exit
 
-def main():
-    print("Hello from rag!")
-
+try:
+    import fire
+    from src.cli import RagCLI
+except(ImportError, KeyboardInterrupt, NameError,Exception )as e:
+        print(f"\n{e}error has occured")
+        exit(1)
 
 if __name__ == "__main__":
-    main()
+
+    try:
+        fire.Fire(RagCLI)
+    except(ImportError, KeyboardInterrupt, NameError,Exception )as e:
+        print(e)

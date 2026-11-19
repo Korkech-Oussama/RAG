@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Iterator, Tuple, List, Self
-from models import MinimalSource
+from src.models import MinimalSource
 
 class BaseIndex(ABC):
  
