@@ -7,14 +7,14 @@ class Corpus:
 
 	def __init__(self, path_to_folder: str = 'data/raw/vllm-0.10.1', max_chunk_size: int = 2000):
 		self.path_to_folder = Path(path_to_folder)
-		self.chunk_size = max_chunk_size
+		self.max_chunk_size = max_chunk_size
 		self.metadata: Dict[str, str] = {}
 
 
 	def hash_full_file(self, file_path: str) -> str:
-		
+	
 		try:
-			with open(file_path, 'rb') as f:
+			with open(file_path, 'rb', encoding='utf-8') as f:
 				digest = hashlib.file_digest(f, "sha256")
 		except Exception as e:
 			print(e)
@@ -76,7 +76,7 @@ class Corpus:
 
 
 	def _assemble_chunks(
-        self, blocks: list[str], file_path: str, separator: str
+        self, blocks: list[str], file_path: str, sep: str
     ) -> Iterator[Tuple[str, str, int, int]]:
 		"""Assemble blocks into chunks without exceeding max_chunk_size.
 
