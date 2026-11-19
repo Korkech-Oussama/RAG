@@ -7,7 +7,7 @@ class MinimalSource(BaseModel):
 	file_path: str
 	first_character_index: int
 	last_character_index: int
-	score: float
+	score: float | None = None
 
 
 class UnansweredQuestion(BaseModel):

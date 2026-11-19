@@ -130,3 +130,8 @@ class Corpus:
         # Yield any remaining text
 		if current_chunk:
 			yield (current_chunk, file_path, current_start_idx, current_start_idx + len(current_chunk))
+
+
+
+
+		
